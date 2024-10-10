@@ -3,6 +3,7 @@ package config
 import (
 	"log"
 	"os"
+	"strings"
 
 	"github.com/joho/godotenv"
 )
@@ -49,9 +50,9 @@ func LoadConfig(path string, name string) Config {
 
 	return Config{
 		App: App{
-			Name: os.Getenv("APP_" + name),
-			Url:  os.Getenv("APP_URL_" + name),
-			Port: os.Getenv("APP_PORT_" + name),
+			Name: os.Getenv(strings.ToUpper("APP_" + name)),
+			Url:  os.Getenv(strings.ToUpper("APP_URL_" + name)),
+			Port: os.Getenv(strings.ToUpper("APP_PORT_" + name)),
 		},
 		Db: Db{
 			UrlCartera:  os.Getenv("DB_URL_CARTERA"),
@@ -76,12 +77,12 @@ func LoadConfig(path string, name string) Config {
 }
 
 func (d *Config) GetURL(name string) string {
-	switch name {
-	case "security":
+	switch strings.ToUpper(name) {
+	case "SECURITY":
 		return d.Db.UrlSecurity
-	case "cartera":
+	case "CARTERA":
 		return d.Db.UrlCartera
-	case "contabilidad":
+	case "CONTABILIDAD":
 		return d.Db.UrlConta
 	default:
 		return ""
